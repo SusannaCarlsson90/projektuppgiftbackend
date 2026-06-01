@@ -15,6 +15,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Hämta en specifik menyprodukt med ID
+router.get("/:id", async (req, res) => {
+  try {
+    const item = await MenuItem.findById(req.params.id);
+    if (!item) {
+      return res
+        .status(404)
+        .json({ message: "Hittade ingen produkt med det ID:t" });
+    }
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ message: "Serverfel", error: err.message });
+  }
+});
+
 //LÄGG TILL EN PRODUKT (Admin)
 // CREATE/POST /api/menu
 router.post("/", async (req, res) => {
@@ -64,6 +79,30 @@ router.delete("/:id", async (req, res) => {
     res
       .status(500)
       .json({ message: "Kunde inte radera produkten", error: err.message });
+  }
+});
+
+// Uppdatera en menyprodukt med ID
+// PUT /api/menu/:id
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedItem = await MenuItem.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // Får tillbaka det uppdaterade objektet i svaret
+    );
+
+    if (!updatedItem) {
+      return res
+        .status(404)
+        .json({ message: "Hittade ingen produkt med det ID:t" });
+    }
+
+    res.json(updatedItem);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Kunde inte uppdatera produkten", error: err.message });
   }
 });
 
