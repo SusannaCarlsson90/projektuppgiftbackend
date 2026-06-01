@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
 
 //LÄGG TILL EN PRODUKT (Admin)
 // CREATE/POST /api/menu
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   const { title, description, price, category } = req.body;
 
   try {
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
 
 // UPPDATERA EN PRODUKT (Update)
 // PUT /api/menu/:id
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticateToken, async (req, res) => {
   try {
     const updatedItem = await MenuItem.findByIdAndUpdate(
       req.params.id,
@@ -71,7 +71,7 @@ router.put("/:id", async (req, res) => {
 
 // RADERA EN PRODUKT (Delete)
 // DELETE /api/menu/:id
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateToken, async (req, res) => {
   try {
     await MenuItem.findByIdAndDelete(req.params.id);
     res.json({ message: "Produkten har raderats från menyn" });
@@ -81,5 +81,27 @@ router.delete("/:id", async (req, res) => {
       .json({ message: "Kunde inte radera produkten", error: err.message });
   }
 });
+
+//Kontrollera JWT-token
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Plockar ut token efter "Bearer "
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Not authorized for this route - token missing" });
+  }
+
+  const jwt = require("jsonwebtoken");
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid JWT" });
+    }
+
+    req.username = decoded.username;
+    next();
+  });
+}
 
 module.exports = router;
