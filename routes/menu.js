@@ -82,28 +82,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Uppdatera en menyprodukt med ID
-// PUT /api/menu/:id
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedItem = await MenuItem.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true } // Får tillbaka det uppdaterade objektet i svaret
-    );
-
-    if (!updatedItem) {
-      return res
-        .status(404)
-        .json({ message: "Hittade ingen produkt med det ID:t" });
-    }
-
-    res.json(updatedItem);
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Kunde inte uppdatera produkten", error: err.message });
-  }
-});
-
 module.exports = router;
