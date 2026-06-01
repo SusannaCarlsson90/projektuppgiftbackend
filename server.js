@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json()); // Gör att vi kan ta emot JSON-data i anropen
+//Routes
+app.use("/api/menu", require("./routes/menu"));
 
 // Test för att se att servern fungerar
 app.get("/", (req, res) => {
