@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json()); // Gör att vi kan ta emot JSON-data i anropen
 //Routes
 app.use("/api/menu", require("./routes/menu"));
+app.use("/api/auth", require("./routes/auth"));
 
 // Test för att se att servern fungerar
 app.get("/", (req, res) => {
