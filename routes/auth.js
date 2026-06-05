@@ -6,7 +6,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// Add a new user
+// Lägg till ny användare
 router.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
