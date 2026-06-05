@@ -2,6 +2,12 @@
 
 Detta är baksidan (servern och databasen) för mitt bageriprojekt. Den fungerar som en länk mellan databasen och applikationens framsida.
 
+## Länkar
+
+Länk till video: https://www.loom.com/share/8692333eb3414fd8af14d099cc8d1adc
+Länk till GitHub Backend-delen: https://github.com/SusannaCarlsson90/projektuppgiftbackend
+Länk till GitHub Frontend-delen: https://github.com/SusannaCarlsson90/frontend-bageri-backend
+
 ## Vad servern gör:
 
 - **Sparar och hanterar data:** Servern kan ta emot, skicka, uppdatera och radera bakverk i databasen (CRUD).
